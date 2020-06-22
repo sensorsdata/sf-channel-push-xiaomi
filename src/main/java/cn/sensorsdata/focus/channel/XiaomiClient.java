@@ -109,9 +109,9 @@ public class XiaomiClient extends ChannelClient {
       if (CollectionUtils.isNotEmpty(regIdList)) {
         Message message;
         if (isAndroidTasks) {
-          message = constructAndroidMessage(messagingTasks);
+          message = constructAndroidMessage(taskList);
         } else {
-          message = constructIosMessage(messagingTasks);
+          message = constructIosMessage(taskList);
         }
         String failReason = null;
         try {
@@ -122,11 +122,11 @@ public class XiaomiClient extends ChannelClient {
             failReason = result.getReason();
           }
         } catch (Exception e) {
-          log.warn("push message with exception. [tasks='{}']", messagingTasks);
+          log.warn("push message with exception. [tasks='{}']", taskList);
           log.warn("exception detail:", e);
           failReason = ExceptionUtils.getMessage(e);
         }
-        for (MessagingTask messagingTask : messagingTasks) {
+        for (MessagingTask messagingTask : taskList) {
           messagingTask.setFailReason(failReason);
           messagingTask.setSuccess(failReason == null);
         }
